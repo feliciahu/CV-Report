@@ -1,12 +1,12 @@
 --SHOW TASKS LIKE 'TSK_FELICIA_H_CPH_FY24_CV%';
 --DESC TASK TSK_FELICIA_H_CPH_FY24_CV;
-select * from table(SBX_PSAS_DB.INFORMATION_SCHEMA.task_history(
-    scheduled_time_range_start=>dateadd('hour',-24,current_timestamp()),
-    result_limit => 10,
-    task_name=>'TSK_FELICIA_H_CPH_FY24_CV'));
+-- select * from table(SBX_PSAS_DB.INFORMATION_SCHEMA.task_history(
+--     scheduled_time_range_start=>dateadd('hour',-24,current_timestamp()),
+--     result_limit => 10,
+--     task_name=>'TSK_FELICIA_H_CPH_FY24_CV'));
     
 --alter task TSK_FELICIA_H_CPH_FY24_CV resume; --It was by default suspended  ( run this command Only first time since by default its suspended)
-execute task TSK_FELICIA_H_CPH_FY24_CV;
+-- execute task TSK_FELICIA_H_CPH_FY24_CV;
 
 --select max(sls_proc_wrk_dt) from SBX_PSAS_DB.ANALYTICS.CV_REPORT;
 
@@ -19,7 +19,7 @@ TIMESTAMP_INPUT_FORMAT = 'YYYY-MM-DD HH24'
 AS
 
 -- -------------
-CREATE OR REPLACE TABLE SBX_PSAS_DB.ANALYTICS.CV_REPORT AS
+CREATE OR REPLACE TABLE SBX_PSAS_DB.SALES_OPS_GOV.CV_REPORT AS
 WITH SALES AS (
 SELECT      S.SLS_ID
         ,   S.SLS_ID_SEQ_NUM
@@ -95,7 +95,7 @@ LEFT JOIN   PRD_PSAS_DB.RPT.T_IW_CUST_ACCT IW_C
 ON          LTRIM(IW_C.CUST_ACCT_ID,'0')=LTRIM(S.CUST_ACCT_ID,'0')
 LEFT JOIN   PRD_PSAS_DB.RPT.T_NATL_GRP NG
 ON          NG.NATL_GRP_CD=S.SLS_NATL_GRP_CD
-LEFT JOIN   SBX_PSAS_DB.ANALYTICS.CV_REPORT_REP_CUST CUST -- REP HIERARCHY
+LEFT JOIN   SBX_PSAS_DB.SALES_OPS_GOV.CV_REPORT_REP_CUST CUST -- REP HIERARCHY
 ON          LTRIM(CUST.CUST_ACCT_ID,'0')=LTRIM(IW_C.CUST_ACCT_ID,'0')
 --WHERE       S.SLS_PROC_WRK_DT >= '2023-04-01' --FY24
 --WHERE     S.SLS_PROC_WRK_DT >= DATEADD(DAY,-90,CURRENT_DATE)
